@@ -3,9 +3,25 @@
         <h1>
             {{ project.title }}
         </h1>
+        <p>{{ project.body }}</p>
+        <div class="mb-3">
+            <h4>Github:</h4>
+            <a :href="project.url">{{ project.title }}</a>
+        </div>
+        <div class="mb-3">
+            <h4>Technologies:</h4>
+            <div class="d-flex">
+                <div class="my-square me-3" v-for="technology in project.technologies">
+                    <img :src="technology.image" :alt="technology.name">
+                </div>
+            </div>
+        </div>
+        <div>
+            <h4>Category:</h4>
+            <p>{{ project.category.name }}</p>
+        </div>
         <div>
             <img class="img-fluid" :src="store.imgPath + project.image" :alt="project.title">
-            <router-link :to="{ name: 'project:slug', params: { slug: project.slug } }">{{ project.title }}</router-link>
         </div>
     </main>
     <NotFound v-else></NotFound>
@@ -42,4 +58,9 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.my-square {
+    width: 50px;
+    height: 50px;
+}
+</style>

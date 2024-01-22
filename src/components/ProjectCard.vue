@@ -1,8 +1,12 @@
 <template>
-    <div class="card col-12 col-md-4 col-lg-3">
-        <img class="img-fluid" v-if="project" :src="store.imgPath + project.image" :alt="project.title">
-        <router-link :to="{ name: 'single-project', params: { slug: project.slug } }"></router-link>
-    </div>
+    <router-link class="col-12 col-md-4 col-lg-3" :to="{ name: 'single-project', params: { slug: project.slug } }">
+        <div class="card  d-flex justify-content-center align-items-center">
+            <img class="img-fluid my-img" v-if="project" :src="store.imgPath + project.image" :alt="project.title">
+            <div class="card-body">
+                <h3>{{ project.title }}</h3>
+            </div>
+        </div>
+    </router-link>
 </template>
 
 <script>
@@ -20,4 +24,9 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.my-img {
+    height: 350px;
+    object-fit: contain;
+}
+</style>
