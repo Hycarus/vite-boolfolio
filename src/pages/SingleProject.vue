@@ -1,12 +1,12 @@
 <template>
-    <main class="container" v-if="project">
+    <main class="container text-white" v-if="project">
         <h1>
             {{ project.title }}
         </h1>
         <p>{{ project.body }}</p>
         <div class="mb-3">
             <h4>Github:</h4>
-            <a :href="project.url">{{ project.title }}</a>
+            <a class="text-white" :href="project.url">{{ project.title }}</a>
         </div>
         <div class="mb-3">
             <h4>Technologies:</h4>
