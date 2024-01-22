@@ -1,18 +1,20 @@
 <template>
-    <main class="container">
-        <h1 v-if="project">
+    <main class="container" v-if="project">
+        <h1>
             {{ project.title }}
         </h1>
         <div>
-            <img class="img-fluid" v-if="project" :src="store.imgPath + project.image" :alt="project.title">
+            <img class="img-fluid" :src="store.imgPath + project.image" :alt="project.title">
             <router-link :to="{ name: 'project:slug', params: { slug: project.slug } }">{{ project.title }}</router-link>
         </div>
     </main>
+    <NotFound v-else></NotFound>
 </template>
 
 <script>
 import axios from 'axios';
 import { store } from '../store.js';
+import NotFound from './NotFound.vue';
 export default {
     name: 'SingleProject',
     data() {
@@ -21,10 +23,16 @@ export default {
             project: null
         }
     },
+    components: {
+        NotFound
+    },
     methods: {
         getProjectData() {
             axios.get(this.store.apiUrl + "projects/" + this.$route.params.slug).then((res) => {
-                this.project = res.data.results;
+                if (res.data.results) {
+                    this.project = res.data.results
+                }
+
             })
         }
     },
