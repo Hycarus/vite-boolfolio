@@ -6,6 +6,10 @@
             <ProjectCard v-for="project in store.projects" :key="project.id" :project="project"></ProjectCard>
         </div>
     </div>
+    <div class="text-center">
+        <button class="btn btn-primary mx-2" @click="previousPage()" :disabled="currentPage == 1">Preovious</button>
+        <button class="btn btn-primary mx-2" @click="nextPage()" :disabled="currentPage == lastPage">Next</button>
+    </div>
 </template>
 
 <script>
@@ -20,14 +24,32 @@ export default {
     },
     data() {
         return {
-            store
+            store,
+            currentPage: 1,
+            lastPage: null,
+            total: 0
         }
     },
     methods: {
         getAllProjects() {
-            axios.get(this.store.apiUrl + "projects").then((res) => {
+            axios.get(this.store.apiUrl + "projects", { params: { page: this.currentPage } }).then((res) => {
                 this.store.projects = res.data.results.data
+                this.lastPage = res.data.results.last_page
+                this.total = res.data.results.total
+                this.currentPage = res.data.results.current_page
             })
+        },
+        previousPage() {
+            if (this.currentPage > 1) {
+                this.currentPage--
+                this.getAllProjects()
+            }
+        },
+        nextPage() {
+            if (this.currentPage < this.lastPage) {
+                this.currentPage++
+                this.getAllProjects()
+            }
         }
     },
     mounted() {
